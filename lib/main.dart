@@ -35,7 +35,8 @@ class MyApp extends StatelessWidget {
             onDoubleTap: () {
               print("onTapCancel");
             },
-            child: const VirtualDisplayExample(),
+            // child: const VirtualDisplayExample(),
+            child: const NativeViewExample(),
           ),
         ),
       ),
