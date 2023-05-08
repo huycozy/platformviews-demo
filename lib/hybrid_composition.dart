@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-class NativeViewExample extends StatefulWidget {
-  const NativeViewExample({Key? key}) : super(key: key);
+class HybridCompositionExample extends StatefulWidget {
+  const HybridCompositionExample({Key? key}) : super(key: key);
 
   @override
-  State<NativeViewExample> createState() => _NativeViewExampleState();
+  State<HybridCompositionExample> createState() => _HybridCompositionExampleState();
 }
 
-class _NativeViewExampleState extends State<NativeViewExample> {
+class _HybridCompositionExampleState extends State<HybridCompositionExample> {
   Widget build(BuildContext context) {
     // This is used in the platform side to register the view.
     const String viewType = 'platformviewtype';

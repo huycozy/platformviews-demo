@@ -1,17 +1,20 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:test_platformviews/native_view_example.dart';
-import 'package:test_platformviews/virtual_display_example.dart';
+import 'package:test_platformviews/hybrid_composition.dart';
+import 'package:test_platformviews/virtual_display.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int? choice = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +25,36 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: Center(
-          child: GestureDetector(
-            onTap: () {
-              print("onTap");
-            },
-            onTapCancel: () {
-              print("onTapCancel");
-            },
-            onLongPress: () {
-              print("onTapCancel");
-            },
-            onDoubleTap: () {
-              print("onTapCancel");
-            },
-            // child: const VirtualDisplayExample(),
-            child: const NativeViewExample(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Builder(
+                builder: (context) {
+                  return TextButton(
+                    child: const Text('Hybrid Composition'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const HybridCompositionExample()),
+                      );
+                    },
+                  );
+                }
+              ),
+              Builder(
+                builder: (context) {
+                  return TextButton(
+                    child: const Text('Virtual Display'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const VirtualDisplayExample()),
+                      );
+                    },
+                  );
+                }
+              ),
+            ],
           ),
         ),
       ),
