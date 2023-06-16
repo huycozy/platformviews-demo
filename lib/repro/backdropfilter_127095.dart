@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:test_platformviews/native_view_ios.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,25 +12,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Column(
-        children: [
-          const SizedBox(
-            width: double.infinity,
-            height: 500,
-            child: NativeViewIOS()
+    return Scaffold(
+      drawer: Drawer(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: -1.0, sigmaY: 15.0),
+          child: Container(
+            color: Colors.white.withOpacity(0.7),
+            child: const Text('Some text'),
           ),
-          ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-              child: Container(
-                color: Colors.white.withOpacity(0.7),
-                child: const Text('Some text'),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
+      body: const NativeViewIOS(),
     );
   }
 }
