@@ -42,9 +42,9 @@ class _MyAppState extends State<MyApp> {
             return TextButton(
               child: const Text('Hybrid Composition'),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HybridCompositionExample()),
+                showModalBottomSheet(
+                  context: context,
+                  builder: (_) => const HybridCompositionExample(),
                 );
               },
             );
@@ -55,9 +55,9 @@ class _MyAppState extends State<MyApp> {
             return TextButton(
               child: const Text('Virtual Display'),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const VirtualDisplayExample()),
+                showModalBottomSheet(
+                  context: context,
+                  builder: (_) => const VirtualDisplayExample(),
                 );
               },
             );
