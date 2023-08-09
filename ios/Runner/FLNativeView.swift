@@ -42,12 +42,28 @@ class FLNativeView: NSObject, FlutterPlatformView {
     }
 
     func createNativeView(view _view: UIView){
-        _view.backgroundColor = UIColor.blue
-        let nativeLabel = UILabel()
-        nativeLabel.text = "Native text from iOS"
-        nativeLabel.textColor = UIColor.white
-        nativeLabel.textAlignment = .center
-        nativeLabel.frame = CGRect(x: 0, y: 0, width: 180, height: 48.0)
-        _view.addSubview(nativeLabel)
+        _view.backgroundColor = UIColor.gray
+//        let nativeLabel = UILabel()
+//        nativeLabel.text = "Native text from iOS"
+//        nativeLabel.textColor = UIColor.white
+//        nativeLabel.textAlignment = .center
+//        nativeLabel.frame = CGRect(x: 0, y: 0, width: 180, height: 48.0)
+//        _view.addSubview(nativeLabel)
+        
+        var loginButton: UIButton
+        loginButton = UIButton()
+        loginButton.setTitle("Open dialog native", for: .normal)
+        loginButton.setTitleColor(.blue, for: .normal)
+        loginButton.frame = CGRect(x: 0, y: 0, width: 180, height: 48.0)
+        loginButton.addTarget(self, action: #selector(pressed), for: .touchUpInside)
+        _view.addSubview(loginButton)
+    }
+    
+    @objc func pressed() {
+        var alertView = UIAlertView()
+        alertView.addButton(withTitle: "OK")
+        alertView.title = "title"
+        alertView.message = "message"
+        alertView.show()
     }
 }

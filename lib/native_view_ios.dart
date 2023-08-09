@@ -16,11 +16,26 @@ class _NativeViewIOSState extends State<NativeViewIOS> {
     // Pass parameters to the platform side.
     final Map<String, dynamic> creationParams = <String, dynamic>{};
 
-    return UiKitView(
-      viewType: viewType,
-      layoutDirection: TextDirection.ltr,
-      creationParams: creationParams,
-      creationParamsCodec: const StandardMessageCodec(),
+    return Scaffold(
+      body: Center(
+        child: Semantics(
+          label: "payment card",
+          excludeSemantics: false,
+          explicitChildNodes: true,
+          child: Container(
+            width: 300,
+            height: 200,
+            color: Colors.red,
+            padding: const EdgeInsets.all(50),
+            child: UiKitView(
+              viewType: viewType,
+              layoutDirection: TextDirection.ltr,
+              creationParams: creationParams,
+              creationParamsCodec: const StandardMessageCodec(),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
