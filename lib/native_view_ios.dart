@@ -16,11 +16,28 @@ class _NativeViewIOSState extends State<NativeViewIOS> {
     // Pass parameters to the platform side.
     final Map<String, dynamic> creationParams = <String, dynamic>{};
 
-    return UiKitView(
-      viewType: viewType,
-      layoutDirection: TextDirection.ltr,
-      creationParams: creationParams,
-      creationParamsCodec: const StandardMessageCodec(),
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (context, index) {
+          if (index != 0 && index % 5 == 0) {
+            return SizedBox(
+              height: 100,
+              child: UiKitView(
+                viewType: viewType,
+                layoutDirection: TextDirection.ltr,
+                creationParams: creationParams,
+                creationParamsCodec: const StandardMessageCodec(),
+              ),
+            );
+          }
+          return Container(
+            height: 200,
+            margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            color: Colors.primaries[index % Colors.primaries.length],
+          );
+        },
+      ),
     );
   }
 }
