@@ -31,7 +31,7 @@ internal class MapView(context: Context?, id: Int, creationParams: Map<String?, 
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT)
             params.gravity = Gravity.CENTER
-            frameLayout.setBackgroundColor(Color.BLUE)
+            frameLayout.setBackgroundColor(Color.RED)
             frameLayout.addView(textView, params)
         }
 

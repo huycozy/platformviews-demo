@@ -42,7 +42,7 @@ class FLNativeView: NSObject, FlutterPlatformView {
     }
 
     func createNativeView(view _view: UIView){
-        _view.backgroundColor = UIColor.blue
+        _view.backgroundColor = UIColor.red
         let nativeLabel = UILabel()
         nativeLabel.text = "Native text from iOS"
         nativeLabel.textColor = UIColor.white
