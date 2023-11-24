@@ -26,57 +26,84 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        body: Center(
-          child: Platform.isAndroid ? _buildAndroid() : _buildIOS()
-        ),
-      ),
+      onGenerateRoute: (settings) {
+        print('onGenerateRoute: $settings');
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(
+                builder: (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
+                settings: const RouteSettings(name: 'TabsViewer'));
+          case '/webview':
+            return MaterialPageRoute(
+                builder: (context) =>
+                    Platform.isAndroid ? const HybridCompositionExample() : const NativeViewIOS(),
+                settings: const RouteSettings(name: 'WebView'));
+        }
+        return null;
+      },
+      onGenerateInitialRoutes: (initialRoute) {
+        print('onGenerateInitialRoutes: $initialRoute');
+        return [
+          MaterialPageRoute(
+            builder: (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
+          ),
+          MaterialPageRoute(
+            builder: (context) =>
+                Platform.isAndroid ? const HybridCompositionExample() : const NativeViewIOS(),
+          ),
+          MaterialPageRoute(
+            builder: (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
+          ),
+        ];
+      },
     );
   }
+}
 
-  _buildAndroid() => Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Builder(
-          builder: (context) {
-            return TextButton(
-              child: const Text('Hybrid Composition'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HybridCompositionExample()),
-                );
-              },
-            );
-          }
-      ),
-      Builder(
-          builder: (context) {
-            return TextButton(
-              child: const Text('Virtual Display'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const VirtualDisplayExample()),
-                );
-              },
-            );
-          }
-      ),
-    ],
-  );
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
 
-  _buildIOS() => Builder(
-      builder: (context) {
-        return TextButton(
-          child: const Text('UiKitView iOS'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const NativeViewIOS()),
-            );
-          },
-        );
-      }
-  );
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
 }
