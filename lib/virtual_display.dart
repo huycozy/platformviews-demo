@@ -14,11 +14,14 @@ class _VirtualDisplayExampleState extends State<VirtualDisplayExample> {
     const String viewType = 'platformviewtype';
     final Map<String, dynamic> creationParams = <String, dynamic>{};
 
-    return AndroidView(
-      viewType: viewType,
-      layoutDirection: TextDirection.ltr,
-      creationParams: creationParams,
-      creationParamsCodec: const StandardMessageCodec(),
+    return Transform.scale(
+      scale: 0.75,
+      child: AndroidView(
+        viewType: viewType,
+        layoutDirection: TextDirection.ltr,
+        creationParams: creationParams,
+        creationParamsCodec: const StandardMessageCodec(),
+      ),
     );
   }
 }
