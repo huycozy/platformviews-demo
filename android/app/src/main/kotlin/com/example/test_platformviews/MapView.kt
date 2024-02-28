@@ -25,6 +25,7 @@ internal class MapView(context: Context?, id: Int, creationParams: Map<String?, 
             textView.textSize = 20f
             textView.setTextColor(Color.WHITE)
             textView.text = "Rendered on a native Android view (id: $id)"
+            textView.setTextIsSelectable(true)
 
             frameLayout = FrameLayout(ct)
             val params = FrameLayout.LayoutParams(
