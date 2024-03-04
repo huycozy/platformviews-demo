@@ -21,6 +21,13 @@ internal class MapView(context: Context?, id: Int, creationParams: Map<String?, 
     init {
         context?.let { ct ->
 
+            val pr = creationParams?.get("value") as Int?
+            var bgColor = Color.BLUE
+            if (pr != null) {
+                if(pr == 1) bgColor = Color.BLUE
+                if(pr == 2) bgColor = Color.RED
+            }
+            
             textView = TextView(ct)
             textView.textSize = 20f
             textView.setTextColor(Color.WHITE)
@@ -32,7 +39,7 @@ internal class MapView(context: Context?, id: Int, creationParams: Map<String?, 
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT)
             params.gravity = Gravity.CENTER
-            frameLayout.setBackgroundColor(Color.BLUE)
+            frameLayout.setBackgroundColor(bgColor)
             frameLayout.addView(textView, params)
         }
 
