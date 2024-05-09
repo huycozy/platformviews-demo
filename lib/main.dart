@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:test_platformviews/hybrid_composition.dart';
-import 'package:test_platformviews/native_view_ios.dart';
-import 'package:test_platformviews/virtual_display.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,56 +26,55 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: const Text('Demo'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(const SnackBar(content: Text('Yep you used the action')));
+                },
+                icon: const Icon(Icons.developer_mode))
+          ],
+        ),
+        drawer: const Drawer(
+          child: Text('Demo Drawer'),
+        ),
         body: Center(
-          child: Platform.isAndroid ? _buildAndroid() : _buildIOS()
+          child: platformView(),
         ),
       ),
     );
   }
 
-  _buildAndroid() => Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Builder(
-          builder: (context) {
-            return TextButton(
-              child: const Text('Hybrid Composition'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HybridCompositionExample()),
-                );
-              },
-            );
-          }
-      ),
-      Builder(
-          builder: (context) {
-            return TextButton(
-              child: const Text('Virtual Display'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const VirtualDisplayExample()),
-                );
-              },
-            );
-          }
-      ),
-    ],
-  );
+  Widget platformView() {
+    const String viewType = 'platformviewtype';
+    const Map<String, dynamic> creationParams = <String, dynamic>{};
 
-  _buildIOS() => Builder(
-      builder: (context) {
-        return TextButton(
-          child: const Text('UiKitView iOS'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const NativeViewIOS()),
-            );
-          },
+    return PlatformViewLink(
+      viewType: viewType,
+      surfaceFactory: (context, controller) {
+        return AndroidViewSurface(
+          controller: controller as AndroidViewController,
+          gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+          hitTestBehavior: PlatformViewHitTestBehavior.opaque,
         );
-      }
-  );
+      },
+      onCreatePlatformView: (params) {
+        return PlatformViewsService.initSurfaceAndroidView(
+          id: params.id,
+          viewType: viewType,
+          layoutDirection: TextDirection.ltr,
+          creationParams: creationParams,
+          creationParamsCodec: const StandardMessageCodec(),
+          onFocus: () {
+            params.onFocusChanged(true);
+          },
+        )
+          ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
+          ..create();
+      },
+    );
+  }
 }
