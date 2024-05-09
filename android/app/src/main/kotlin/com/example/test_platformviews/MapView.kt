@@ -4,16 +4,19 @@ import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
 import android.view.View
-import android.widget.FrameLayout
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import io.flutter.plugin.platform.PlatformView
 
 internal class MapView(context: Context?, id: Int, creationParams: Map<String?, Any?>?) : PlatformView {
     private lateinit var textView: TextView
-    private lateinit var frameLayout: FrameLayout
+    private lateinit var editText: EditText
+    private lateinit var linearLayout: LinearLayout
 
     override fun getView(): View {
-        return frameLayout
+        return linearLayout
     }
 
     override fun dispose() {}
@@ -26,14 +29,26 @@ internal class MapView(context: Context?, id: Int, creationParams: Map<String?, 
             textView.setTextColor(Color.WHITE)
             textView.text = "Rendered on a native Android view (id: $id)"
             textView.setTextIsSelectable(true)
+            textView.setOnClickListener {
+                Toast.makeText(ct, "Hello from Android!", Toast.LENGTH_SHORT).show();
+            }
 
-            frameLayout = FrameLayout(ct)
-            val params = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT)
-            params.gravity = Gravity.CENTER
-            frameLayout.setBackgroundColor(Color.BLUE)
-            frameLayout.addView(textView, params)
+            editText = EditText(ct)
+            editText.hint = "Enter your name"
+            editText.textSize = 20f
+            editText.setTextColor(Color.BLACK)
+            editText.setBackgroundColor(Color.WHITE)
+            editText.setPadding(10, 10, 10, 10)
+            editText.gravity = Gravity.CENTER
+
+            // create a new LinearLayout and add both textview and edittext to it
+            linearLayout = LinearLayout(ct)
+            linearLayout.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+            linearLayout.gravity = Gravity.CENTER
+            linearLayout.orientation = LinearLayout.VERTICAL
+            linearLayout.setBackgroundColor(Color.BLUE)
+            linearLayout.addView(textView)
+            linearLayout.addView(editText)
         }
 
     }
