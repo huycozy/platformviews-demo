@@ -9,16 +9,18 @@ class VirtualDisplayExample extends StatefulWidget {
 }
 
 class _VirtualDisplayExampleState extends State<VirtualDisplayExample> {
+  String viewType = 'platformviewtype';
+  final Map<String, dynamic> creationParams = <String, dynamic>{};
+
   @override
   Widget build(BuildContext context) {
-    const String viewType = 'platformviewtype';
-    final Map<String, dynamic> creationParams = <String, dynamic>{};
-
-    return AndroidView(
-      viewType: viewType,
-      layoutDirection: TextDirection.ltr,
-      creationParams: creationParams,
-      creationParamsCodec: const StandardMessageCodec(),
-    );
+    return platformView();
   }
+
+  Widget platformView() => AndroidView(
+        viewType: viewType,
+        layoutDirection: TextDirection.ltr,
+        creationParams: creationParams,
+        creationParamsCodec: const StandardMessageCodec(),
+      );
 }
