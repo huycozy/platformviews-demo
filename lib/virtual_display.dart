@@ -21,10 +21,7 @@ class _VirtualDisplayExampleState extends State<VirtualDisplayExample> {
           height: heightValue,
           color: const Color(0xffff6600),
           child: Center(
-            child: SizedBox(
-              height: 300,
-              child: platformView(),
-            ),
+            child: platformView(),
           ),
         ),
         ElevatedButton(
