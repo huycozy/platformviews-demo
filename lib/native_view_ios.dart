@@ -14,7 +14,33 @@ class _NativeViewIOSState extends State<NativeViewIOS> {
 
   @override
   Widget build(BuildContext context) {
-    return platformView();
+    return SafeArea(
+      child: Stack(
+        children: [
+          SizedBox(
+            width: 380,
+            height: 380,
+            child: platformView(),
+          ),
+          Stack(
+            children: List<Widget>.generate(10000, (index) {
+              // The problem already happens with a small amount of widgets.
+              // Using an excessive amount of widgets is just to make the problem more evident.
+              return Text("Lots of Texts represent a Widget with complex components.");
+            }),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: TextButton(
+              child: Text("Button"),
+              onPressed: () {
+                print("Tap ${DateTime.now()}");
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget platformView() => UiKitView(
