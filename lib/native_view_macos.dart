@@ -14,13 +14,26 @@ class _NativeViewIOSState extends State<NativeViewMacOS> {
 
   @override
   Widget build(BuildContext context) {
-    return platformView();
+    return Stack(
+      children: [
+        platformView(),
+        ListView.builder(
+          itemCount: 10,
+          itemBuilder: (context, index) {
+            return SizedBox(
+              height: 100,
+              child: Text('Item $index'),
+            );
+          },
+        ),
+      ],
+    );
   }
 
   Widget platformView() => AppKitView(
-    viewType: viewType,
-    layoutDirection: TextDirection.ltr,
-    creationParams: creationParams,
-    creationParamsCodec: const StandardMessageCodec(),
-  );
+        viewType: viewType,
+        layoutDirection: TextDirection.ltr,
+        creationParams: creationParams,
+        creationParamsCodec: const StandardMessageCodec(),
+      );
 }
