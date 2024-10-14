@@ -1,8 +1,8 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:test_platformviews/hybrid_composition.dart';
 import 'package:test_platformviews/native_view_ios.dart';
+import 'package:test_platformviews/native_view_macos.dart';
 import 'package:test_platformviews/virtual_display.dart';
 
 void main() {
@@ -27,18 +27,28 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        body: Center(
-          child: Platform.isAndroid ? _buildAndroid() : _buildIOS()
-        ),
+        body: Center(child: _buildPlatformViews()),
       ),
     );
   }
 
+  _buildPlatformViews() {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return _buildAndroid();
+      case TargetPlatform.iOS:
+        return _buildIOS();
+      case TargetPlatform.macOS:
+        return _buildMacOS();
+      default:
+        throw UnsupportedError('Unsupported platform view');
+    }
+  }
+
   _buildAndroid() => Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Builder(
-          builder: (context) {
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Builder(builder: (context) {
             return TextButton(
               child: const Text('Hybrid Composition'),
               onPressed: () {
@@ -48,10 +58,8 @@ class _MyAppState extends State<MyApp> {
                 );
               },
             );
-          }
-      ),
-      Builder(
-          builder: (context) {
+          }),
+          Builder(builder: (context) {
             return TextButton(
               child: const Text('Virtual Display'),
               onPressed: () {
@@ -61,13 +69,11 @@ class _MyAppState extends State<MyApp> {
                 );
               },
             );
-          }
-      ),
-    ],
-  );
+          }),
+        ],
+      );
 
-  _buildIOS() => Builder(
-      builder: (context) {
+  _buildIOS() => Builder(builder: (context) {
         return TextButton(
           child: const Text('UiKitView iOS'),
           onPressed: () {
@@ -77,6 +83,17 @@ class _MyAppState extends State<MyApp> {
             );
           },
         );
-      }
-  );
+      });
+
+  _buildMacOS() => Builder(builder: (context) {
+        return TextButton(
+          child: const Text('AppKitView macOS'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const NativeViewMacOS()),
+            );
+          },
+        );
+      });
 }
