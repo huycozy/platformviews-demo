@@ -23,6 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
+    namespace "com.example.test_platformviews"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
